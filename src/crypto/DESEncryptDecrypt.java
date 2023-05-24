@@ -20,10 +20,28 @@ public class DESEncryptDecrypt {
             //Membuat Des private key
             KeyGenerator keyGen = KeyGenerator.getInstance("DES");
             keyGen.init(56);
-            key key = keyGen.generateKey();
+            Key key = keyGen.generateKey();
             // membuat DES cipher => print ke provider
-            
+            Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+            // proses encript
+            cipher.init(Cipher.ENCRYPT_MODE, key);
+            byte[] cipherText = cipher.doFinal(plain);
+            // proses decript
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] originText = cipher.doFinal (cipherText);
+            System.out.println("Plain Text: " + data);
+            System.out.println("Enkripsi: " + new String (cipherText, "UTF8"));
+            System.out.println("Enkripsi Heksa: " + MyStringUtils.
+                    getHexString(cipherText));
+            System.out.println("Deskripsi: " + new String (originText, "UTF8"));
+        } catch (UnsupportedEncodingException | InvalidKeyException | 
+                NoSuchAlgorithmException | BadPaddingException | 
+                IllegalBlockSizeException | NoSuchPaddingException e) {
         }
+    }
+    
+    public static void main(String[] args) {
+        doEncryptDecript();
     }
     
 }
